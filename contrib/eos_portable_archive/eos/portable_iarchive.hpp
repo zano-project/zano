@@ -3,7 +3,7 @@
  * \file portable_iarchive.hpp
  * \brief Provides an archive to read from portable binary files.
  * \author christian.pfligersdorffer@gmx.at
- * \version 5.1
+ * \version 5.0
  *
  * This pair of archives brings the advantages of binary streams to the cross
  * platform boost::serialization user. While being almost as fast as the native
@@ -22,9 +22,6 @@
  *       and x86-64 platforms featuring different byte order. So there is a good
  *       chance it will instantly work for your specific setup. If you encounter
  *       problems or have suggestions please contact the author.
- *
- * \note Version 5.1 is now compatible with boost up to version 1.59. Thanks to
- *       ecotax for pointing to the issue with shared_ptr_helper.
  *
  * \note Version 5.0 is now compatible with boost up to version 1.49 and enables
  *       serialization of std::wstring by converting it to/from utf8 (thanks to
@@ -92,7 +89,9 @@
 #include <boost/archive/basic_binary_iprimitive.hpp>
 #include <boost/archive/basic_binary_iarchive.hpp>
 
-#if BOOST_VERSION >= 103500 && BOOST_VERSION < 105600
+#if BOOST_VERSION >= 105600
+#include <boost/serialization/shared_ptr_helper.hpp>
+#elif BOOST_VERSION >= 103500
 #include <boost/archive/shared_ptr_helper.hpp>
 #endif
 
@@ -116,16 +115,14 @@
 #include <boost/math/fpclassify.hpp>
 #elif BOOST_VERSION < 104800
 #include <boost/spirit/home/support/detail/integer/endian.hpp>
-// Boost 1.69 (Spirit.X2/X3) has dropped their own FP routines in favor of boost::math
-#elif BOOST_VERSION < 106900
 #include <boost/spirit/home/support/detail/math/fpclassify.hpp>
-#include <boost/spirit/home/support/detail/endian/endian.hpp>
 #else
 #include <boost/spirit/home/support/detail/endian/endian.hpp>
+#include <boost/spirit/home/support/detail/math/fpclassify.hpp>
 #endif
 
 // namespace alias
-#if BOOST_VERSION < 103800 || BOOST_VERSION >= 106900
+#if BOOST_VERSION < 103800
 namespace fp = boost::math;
 #else
 namespace fp = boost::spirit::math;
@@ -138,7 +135,7 @@ namespace endian = boost::detail;
 namespace endian = boost::spirit::detail;
 #endif
 
-#if BOOST_VERSION >= 104500 && !defined BOOST_NO_STD_WSTRING
+#ifndef BOOST_NO_STD_WSTRING
 // used for wstring to utf8 conversion
 #include <boost/program_options/config.hpp>
 #include <boost/program_options/detail/convert.hpp>
@@ -193,7 +190,9 @@ namespace eos {
 		// load_override functions so we chose to stay one level higher
 		, public boost::archive::basic_binary_iarchive<portable_iarchive>
 
-	#if BOOST_VERSION >= 103500 && BOOST_VERSION < 105600
+  #if BOOST_VERSION >= 105600
+    // mix-in helper class for serializing shared_ptr does not exist anymore
+  #elif BOOST_VERSION >= 103500
 		// mix-in helper class for serializing shared_ptr
 		, public boost::archive::detail::shared_ptr_helper
 	#endif
@@ -350,7 +349,7 @@ namespace eos {
 				T temp = size < 0 ? -1 : 0;
 				load_binary(&temp, abs(size));
 
-				// load the value from little endian - it is then converted
+				// load the value from little endian - is is then converted
 				// to the target type T and fits it because size <= sizeof(T)
 				t = endian::load_little_endian<T, sizeof(T)>(&temp);
 			}

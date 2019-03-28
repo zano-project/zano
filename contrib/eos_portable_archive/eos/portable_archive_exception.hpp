@@ -35,11 +35,12 @@ namespace eos {
 
 	// version of the linked boost archive library
 	const archive_version_type archive_version(
-	#if BOOST_VERSION < 103700
-		boost::archive::ARCHIVE_VERSION()
-	#else
-		boost::archive::BOOST_ARCHIVE_VERSION()
-	#endif
+                11
+//	#if BOOST_VERSION < 103700
+//		boost::archive::ARCHIVE_VERSION()
+//	#else
+//		boost::archive::BOOST_ARCHIVE_VERSION()
+//	#endif
 	);
 
 	/**
