@@ -179,7 +179,7 @@ namespace currency {
     return res.convert_to<wide_difficulty_type>();
   }
 
-  wide_difficulty_type next_difficulty(vector<uint64_t>& timestamps, vector<wide_difficulty_type>& cumulative_difficulties, size_t target_seconds)
+  wide_difficulty_type next_difficulty(vector<uint64_t>& timestamps, vector<wide_difficulty_type>& cumulative_difficulties, size_t target_seconds, bool is_pos)
   {
     TIME_MEASURE_START_PD(target_calculating_enum_blocks);
     // timestamps  - first is latest, back - is oldest timestamps
@@ -205,7 +205,9 @@ namespace currency {
     static_assert(2 * DIFFICULTY_CUT <= DIFFICULTY_WINDOW - 2, "Cut length is too large");
     wide_difficulty_type dif_slow = get_adjustment_for_zone(timestamps, cumulative_difficulties, target_seconds, DIFFICULTY_WINDOW, DIFFICULTY_CUT/2, DIFFICULTY_CUT/2);
     wide_difficulty_type dif_medium = get_adjustment_for_zone(timestamps, cumulative_difficulties, target_seconds, DIFFICULTY_WINDOW/3, DIFFICULTY_CUT / 8, DIFFICULTY_CUT / 12);
-    wide_difficulty_type dif_fast = get_adjustment_for_zone(timestamps, cumulative_difficulties, target_seconds, DIFFICULTY_WINDOW/18, DIFFICULTY_CUT / 10, 2); 
+    wide_difficulty_type dif_fast = 0;
+    if(!is_pos)
+      dif_fast = get_adjustment_for_zone(timestamps, cumulative_difficulties, target_seconds, DIFFICULTY_WINDOW / 18, DIFFICULTY_CUT / 10, 2);
     uint64_t devider = 1;
     wide_difficulty_type summ = dif_slow;
     if (dif_medium != 0)
