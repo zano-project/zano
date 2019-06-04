@@ -1984,7 +1984,7 @@ void wallet2::load(const std::wstring& wallet_, const std::string& password)
 
   bool need_to_resync = !tools::portable_unserialize_obj_from_stream(*this, data_file);
 
-  if (m_watch_only)
+  if (m_watch_only || m_force_keep_outkey2ki_file)
     load_keys2ki(true, need_to_resync);
 
   if (need_to_resync)
@@ -2214,6 +2214,8 @@ void wallet2::sign_transfer(const std::string& tx_sources_blob, std::string& sig
 
   finalize_transaction(ft.ftp, ft.tx, ft.one_time_key, false);
 
+  crypto::hash tx_hash = get_transaction_hash(ft.tx);
+
   // calculate key images for each change output
   crypto::key_derivation derivation = AUTO_VAL_INIT(derivation);
   WLT_THROW_IF_FALSE_WALLET_INT_ERR_EX(
@@ -2248,6 +2250,9 @@ void wallet2::sign_transfer(const std::string& tx_sources_blob, std::string& sig
       crypto::generate_key_image(ephemeral_pub, ephemeral_sec, ki);
 
       ft.outs_key_images.push_back(make_serializable_pair(static_cast<uint64_t>(i), ki));
+
+      if (m_force_keep_outkey2ki_file)
+        add_pending_pub_key_2_key_image_pair(otk.key, ki, tx_hash);
     }
   }
 
@@ -2331,19 +2336,7 @@ void wallet2::submit_transfer(const std::string& signed_tx_blob, currency::trans
     }
 
     for (auto& p : pk_ki_to_be_added)
-    {
-      auto it = m_pending_key_images.find(p.first);
-      if (it != m_pending_key_images.end())
-      {
-        LOG_PRINT_YELLOW("warning: for tx " << tx_hash << " out pub key " << p.first << " already exist in m_pending_key_images, ki: " << it->second << ", proposed new ki: " << p.second, LOG_LEVEL_0);
-      }
-      else
-      {
-        m_pending_key_images[p.first] = p.second;
-        m_pending_key_images_file_container.push_back(tools::out_key_to_ki(p.first, p.second));
-        LOG_PRINT_L2("for tx " << tx_hash << " pending key image added (" << p.first << ", " << p.second << ")");
-      }
-    }
+      add_pending_pub_key_2_key_image_pair(p.first, p.second, tx_hash);
 
     for (auto& p : tri_ki_to_be_added)
     {
@@ -2370,6 +2363,27 @@ void wallet2::submit_transfer_files(const std::string& signed_tx_file, currency:
   THROW_IF_FALSE_WALLET_EX(r, error::wallet_common_error, std::string("failed to open file ") + signed_tx_file);
 
   submit_transfer(signed_tx_blob, tx);
+}
+//----------------------------------------------------------------------------------------------------
+void wallet2::add_pending_pub_key_2_key_image_pair(const crypto::public_key& pub_key, const crypto::key_image& ki, const crypto::hash& tx_hash)
+{
+  auto it = m_pending_key_images.find(pub_key);
+  if (it != m_pending_key_images.end())
+  {
+    LOG_PRINT_YELLOW("warning: for tx " << tx_hash << " out pub key " << pub_key << " already exist in m_pending_key_images, ki: " << it->second << ", proposed new ki: " << ki, LOG_LEVEL_0);
+  }
+  else
+  {
+    m_pending_key_images[pub_key] = ki;
+    if (m_pending_key_images_file_container.push_back(tools::out_key_to_ki(pub_key, ki)))
+    {
+      LOG_PRINT_L1("for tx " << tx_hash << " pending key image added (" << pub_key << ", " << ki << ")");
+    }
+    else
+    {
+      LOG_ERROR("for tx " << tx_hash << " pending key image WAS NOT added (" << pub_key << ", " << ki << ")");
+    }
+  }
 }
 //----------------------------------------------------------------------------------------------------
 uint64_t wallet2::get_recent_transfers_total_count()
@@ -4084,6 +4098,11 @@ void wallet2::transfer(const std::vector<currency::tx_destination_entry>& dsts,
 
   print_tx_sent_message(tx, std::string() + "(transfer)", fee);
 }
-
+//----------------------------------------------------------------------------------------------------
+void wallet2::set_force_keep_outkey2ki_file(bool value)
+{
+  m_force_keep_outkey2ki_file = value;
+}
+//----------------------------------------------------------------------------------------------------
 
 } // namespace tools

@@ -322,7 +322,8 @@ namespace tools
                 m_fake_outputs_count(0),
                 m_do_rise_transfer(false),
                 m_log_prefix("???"),
-                m_watch_only(false)
+                m_watch_only(false),
+                m_force_keep_outkey2ki_file(false)
     {
       m_core_runtime_config = currency::get_default_core_runtime_config();
     };
@@ -460,6 +461,8 @@ namespace tools
     void get_unconfirmed_transfers(std::vector<wallet_rpc::wallet_transfer_info>& trs);
     void init(const std::string& daemon_address = "http://localhost:8080");
     bool deinit();
+
+    void set_force_keep_outkey2ki_file(bool value); // enfoce a wallet to keep outkey2ki file for a backup purpose
 
     void stop() { m_stop.store(true, std::memory_order_relaxed); }
     void reset_creation_time(uint64_t timestamp);
@@ -829,6 +832,7 @@ private:
     void exception_handler() const;
     uint64_t get_minimum_allowed_fee_for_contract(const crypto::hash& ms_id);
 
+    void add_pending_pub_key_2_key_image_pair(const crypto::public_key& pub_key, const crypto::key_image& ki, const crypto::hash& tx_hash);
 
 
 
@@ -842,6 +846,7 @@ private:
     std::atomic<uint64_t> m_local_bc_height; //temporary workaround 
     std::atomic<uint64_t> m_last_bc_timestamp; 
     bool m_do_rise_transfer;
+    bool m_force_keep_outkey2ki_file;
 
     transfer_container m_transfers;
     multisig_transfer_container m_multisig_transfers;

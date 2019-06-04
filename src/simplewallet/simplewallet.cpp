@@ -397,6 +397,7 @@ bool simple_wallet::open_wallet(const string &wallet_file, const std::string& pa
   m_wallet_file = wallet_file;
   m_wallet.reset(new tools::wallet2());
   m_wallet->callback(shared_from_this());
+  m_wallet->set_force_keep_outkey2ki_file(m_offline_mode); // enfoce a wallet opened in offline mode to keep outkey2ki file for a backup purpose
 
   while (true)
   {
