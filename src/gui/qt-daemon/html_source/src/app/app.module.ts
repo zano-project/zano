@@ -35,6 +35,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { BackendService } from './_helpers/services/backend.service';
 import { ModalService } from './_helpers/services/modal.service';
+import { SafePipe } from './_helpers/pipes/safe.pipe';
 import { MoneyToIntPipe } from './_helpers/pipes/money-to-int.pipe';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { HistoryTypeMessagesPipe } from './_helpers/pipes/history-type-messages.pipe';
@@ -44,6 +45,7 @@ import { TooltipDirective } from './_helpers/directives/tooltip.directive';
 import { InputValidateDirective } from './_helpers/directives/input-validate/input-validate.directive';
 import { StakingSwitchComponent } from './_helpers/directives/staking-switch/staking-switch.component';
 import { ModalContainerComponent } from './_helpers/directives/modal-container/modal-container.component';
+import { ConfirmContainerComponent } from './_helpers/directives/confirm-container/confirm-container.component';
 import { TransactionDetailsComponent } from './_helpers/directives/transaction-details/transaction-details.component';
 import { ContextMenuModule } from 'ngx-contextmenu';
 
@@ -90,6 +92,7 @@ Highcharts.setOptions({
     MessagesComponent,
     StakingComponent,
     TypingMessageComponent,
+    SafePipe,
     MoneyToIntPipe,
     IntToMoneyPipe,
     StakingSwitchComponent,
@@ -99,6 +102,7 @@ Highcharts.setOptions({
     TooltipDirective,
     InputValidateDirective,
     ModalContainerComponent,
+    ConfirmContainerComponent,
     TransactionDetailsComponent,
     ProgressContainerComponent,
     InputDisableSelectionDirective
@@ -128,7 +132,8 @@ Highcharts.setOptions({
     // {provide: HIGHCHARTS_MODULES, useFactory: () => [ highstock, more, exporting ] }
   ],
   entryComponents: [
-    ModalContainerComponent
+    ModalContainerComponent,
+    ConfirmContainerComponent
   ],
   bootstrap: [AppComponent]
 })

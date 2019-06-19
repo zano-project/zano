@@ -23,6 +23,87 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
+/***/ "./src/app/_helpers/directives/confirm-container/confirm-container.component.html":
+/*!****************************************************************************************!*\
+  !*** ./src/app/_helpers/directives/confirm-container/confirm-container.component.html ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"content\">\n    <div class=\"message-container\">\n      <span class=\"title\" *ngIf=\"title\">{{title}}</span>\n      <span class=\"message\" [innerHTML]=\"message | safe : 'html'\"></span>\n    </div>\n  </div>\n  <div class=\"wrap-buttons\">\n    <button type=\"button\" class=\"blue-button\" (click)=\"onConfirm()\">{{ 'MODALS.CONFIRM' | translate }}</button>\n    <button type=\"button\" class=\"blue-button\" (click)=\"onCancel()\">{{ 'MODALS.CANCEL' | translate }}</button>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/directives/confirm-container/confirm-container.component.scss":
+/*!****************************************************************************************!*\
+  !*** ./src/app/_helpers/directives/confirm-container/confirm-container.component.scss ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 3rem;\n  width: 50rem; }\n\n.modal .content {\n    display: flex;\n    margin: 1.2rem 0; }\n\n.modal .content .message-container {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n      justify-content: center; }\n\n.modal .content .message-container .title {\n        font-size: 1.8rem;\n        font-weight: 600;\n        line-height: 2.2rem;\n        margin-bottom: 0.4rem; }\n\n.modal .content .message-container .message {\n        font-size: 1.3rem;\n        line-height: 1.8rem; }\n\n.modal .wrap-buttons {\n    display: flex;\n    align-items: center;\n    justify-content: space-between; }\n\n.modal .wrap-buttons button {\n      width: 15rem;\n      height: 3rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvX2hlbHBlcnMvZGlyZWN0aXZlcy9jb25maXJtLWNvbnRhaW5lci9EOlxcUHJvamVjdHNcXFphbm9cXHNyY1xcZ3VpXFxxdC1kYWVtb25cXGh0bWxfc291cmNlL3NyY1xcYXBwXFxfaGVscGVyc1xcZGlyZWN0aXZlc1xcY29uZmlybS1jb250YWluZXJcXGNvbmZpcm0tY29udGFpbmVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZUFBZTtFQUNmLE1BQU07RUFDTixTQUFTO0VBQ1QsT0FBTztFQUNQLFFBQVE7RUFDUixhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLHVCQUF1QjtFQUN2QixxQ0FBcUMsRUFBQTs7QUFFdkM7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQkFBMkI7RUFDM0IscUJBQXFCO0VBQ3JCLGFBQWE7RUFDYixZQUFZLEVBQUE7O0FBUGQ7SUFVSSxhQUFhO0lBQ2IsZ0JBQWdCLEVBQUE7O0FBWHBCO01BY00sYUFBYTtNQUNiLHNCQUFzQjtNQUN0Qix1QkFBdUI7TUFDdkIsdUJBQXVCLEVBQUE7O0FBakI3QjtRQW9CUSxpQkFBaUI7UUFDakIsZ0JBQWdCO1FBQ2hCLG1CQUFtQjtRQUNuQixxQkFBcUIsRUFBQTs7QUF2QjdCO1FBMkJRLGlCQUFpQjtRQUNqQixtQkFBbUIsRUFBQTs7QUE1QjNCO0lBa0NJLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsOEJBQThCLEVBQUE7O0FBcENsQztNQXVDTSxZQUFZO01BQ1osWUFBWSxFQUFBIiwiZmlsZSI6InNyYy9hcHAvX2hlbHBlcnMvZGlyZWN0aXZlcy9jb25maXJtLWNvbnRhaW5lci9jb25maXJtLWNvbnRhaW5lci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcclxuICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgdG9wOiAwO1xyXG4gIGJvdHRvbTogMDtcclxuICBsZWZ0OiAwO1xyXG4gIHJpZ2h0OiAwO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcclxuICBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMjUpO1xyXG59XHJcbi5tb2RhbCB7XHJcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBjZW50ZXI7XHJcbiAgYmFja2dyb3VuZC1zaXplOiAyMDAlO1xyXG4gIHBhZGRpbmc6IDNyZW07XHJcbiAgd2lkdGg6IDUwcmVtO1xyXG5cclxuICAuY29udGVudCB7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgbWFyZ2luOiAxLjJyZW0gMDtcclxuXHJcbiAgICAubWVzc2FnZS1jb250YWluZXIge1xyXG4gICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcclxuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcblxyXG4gICAgICAudGl0bGUge1xyXG4gICAgICAgIGZvbnQtc2l6ZTogMS44cmVtO1xyXG4gICAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XHJcbiAgICAgICAgbGluZS1oZWlnaHQ6IDIuMnJlbTtcclxuICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjRyZW07XHJcbiAgICAgIH1cclxuXHJcbiAgICAgIC5tZXNzYWdlIHtcclxuICAgICAgICBmb250LXNpemU6IDEuM3JlbTtcclxuICAgICAgICBsaW5lLWhlaWdodDogMS44cmVtO1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAud3JhcC1idXR0b25zIHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xyXG5cclxuICAgIGJ1dHRvbiB7XHJcbiAgICAgIHdpZHRoOiAxNXJlbTtcclxuICAgICAgaGVpZ2h0OiAzcmVtO1xyXG4gICAgfVxyXG4gIH1cclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/directives/confirm-container/confirm-container.component.ts":
+/*!**************************************************************************************!*\
+  !*** ./src/app/_helpers/directives/confirm-container/confirm-container.component.ts ***!
+  \**************************************************************************************/
+/*! exports provided: ConfirmContainerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmContainerComponent", function() { return ConfirmContainerComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ConfirmContainerComponent = /** @class */ (function () {
+    function ConfirmContainerComponent() {
+        this.confirmation = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    ConfirmContainerComponent.prototype.ngOnInit = function () { };
+    ConfirmContainerComponent.prototype.onConfirm = function () {
+        this.confirmation.emit(true);
+    };
+    ConfirmContainerComponent.prototype.onCancel = function () {
+        this.confirmation.emit(false);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ConfirmContainerComponent.prototype, "title", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ConfirmContainerComponent.prototype, "message", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], ConfirmContainerComponent.prototype, "confirmation", void 0);
+    ConfirmContainerComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirm-container',
+            template: __webpack_require__(/*! ./confirm-container.component.html */ "./src/app/_helpers/directives/confirm-container/confirm-container.component.html"),
+            styles: [__webpack_require__(/*! ./confirm-container.component.scss */ "./src/app/_helpers/directives/confirm-container/confirm-container.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ConfirmContainerComponent);
+    return ConfirmContainerComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts":
 /*!**************************************************************************************************!*\
   !*** ./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts ***!
@@ -1566,6 +1647,62 @@ var MoneyToIntPipe = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_helpers/pipes/safe.pipe.ts":
+/*!*********************************************!*\
+  !*** ./src/app/_helpers/pipes/safe.pipe.ts ***!
+  \*********************************************/
+/*! exports provided: SafePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SafePipe", function() { return SafePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SafePipe = /** @class */ (function () {
+    function SafePipe(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    SafePipe.prototype.transform = function (value, type) {
+        switch (type) {
+            case 'html':
+                return this.sanitizer.bypassSecurityTrustHtml(value);
+            case 'style':
+                return this.sanitizer.bypassSecurityTrustStyle(value);
+            case 'script':
+                return this.sanitizer.bypassSecurityTrustScript(value);
+            case 'url':
+                return this.sanitizer.bypassSecurityTrustUrl(value);
+            case 'resourceUrl':
+                return this.sanitizer.bypassSecurityTrustResourceUrl(value);
+            default:
+                throw new Error("Invalid safe type specified: " + type);
+        }
+    };
+    SafePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'safe'
+        }),
+        __metadata("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["DomSanitizer"]])
+    ], SafePipe);
+    return SafePipe;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_helpers/services/backend.service.ts":
 /*!******************************************************!*\
   !*** ./src/app/_helpers/services/backend.service.ts ***!
@@ -2259,7 +2396,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalService", function() { return ModalService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
+/* harmony import */ var _directives_confirm_container_confirm_container_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../directives/confirm-container/confirm-container.component */ "./src/app/_helpers/directives/confirm-container/confirm-container.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2269,6 +2408,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -2283,7 +2424,7 @@ var ModalService = /** @class */ (function () {
     }
     ModalService.prototype.prepareModal = function (type, message) {
         var _this = this;
-        var length = this.components.push(this.componentFactoryResolver.resolveComponentFactory(_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__["ModalContainerComponent"]).create(this.injector));
+        var length = this.components.push(this.componentFactoryResolver.resolveComponentFactory(_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_3__["ModalContainerComponent"]).create(this.injector));
         this.components[length - 1].instance['type'] = type;
         this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
         this.components[length - 1].instance['close'].subscribe(function () {
@@ -2291,6 +2432,21 @@ var ModalService = /** @class */ (function () {
         });
         this.ngZone.run(function () {
             _this.appendModal(length - 1);
+        });
+    };
+    ModalService.prototype.prepareConfirmModal = function (title, message) {
+        var _this = this;
+        return new rxjs__WEBPACK_IMPORTED_MODULE_2__["Observable"](function (observer) {
+            var length = _this.components.push(_this.componentFactoryResolver.resolveComponentFactory(_directives_confirm_container_confirm_container_component__WEBPACK_IMPORTED_MODULE_4__["ConfirmContainerComponent"]).create(_this.injector));
+            _this.components[length - 1].instance['title'] = title.length ? _this.translate.instant(title) : '';
+            _this.components[length - 1].instance['message'] = message.length ? _this.translate.instant(message) : '';
+            _this.components[length - 1].instance['confirmation'].subscribe(function (confirmation) {
+                _this.removeModal(length - 1);
+                observer.next(confirmation);
+            });
+            _this.ngZone.run(function () {
+                _this.appendModal(length - 1);
+            });
         });
     };
     ModalService.prototype.appendModal = function (index) {
@@ -3444,26 +3600,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/fesm5/ng-select.js");
 /* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
 /* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
-/* harmony import */ var _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./_helpers/pipes/money-to-int.pipe */ "./src/app/_helpers/pipes/money-to-int.pipe.ts");
-/* harmony import */ var _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./_helpers/pipes/int-to-money.pipe */ "./src/app/_helpers/pipes/int-to-money.pipe.ts");
-/* harmony import */ var _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./_helpers/pipes/history-type-messages.pipe */ "./src/app/_helpers/pipes/history-type-messages.pipe.ts");
-/* harmony import */ var _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./_helpers/pipes/contract-status-messages.pipe */ "./src/app/_helpers/pipes/contract-status-messages.pipe.ts");
-/* harmony import */ var _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./_helpers/pipes/contract-time-left.pipe */ "./src/app/_helpers/pipes/contract-time-left.pipe.ts");
-/* harmony import */ var _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./_helpers/directives/tooltip.directive */ "./src/app/_helpers/directives/tooltip.directive.ts");
-/* harmony import */ var _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./_helpers/directives/input-validate/input-validate.directive */ "./src/app/_helpers/directives/input-validate/input-validate.directive.ts");
-/* harmony import */ var _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./_helpers/directives/staking-switch/staking-switch.component */ "./src/app/_helpers/directives/staking-switch/staking-switch.component.ts");
-/* harmony import */ var _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./_helpers/directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
-/* harmony import */ var _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./_helpers/directives/transaction-details/transaction-details.component */ "./src/app/_helpers/directives/transaction-details/transaction-details.component.ts");
-/* harmony import */ var ngx_contextmenu__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ngx-contextmenu */ "./node_modules/ngx-contextmenu/fesm5/ngx-contextmenu.js");
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! angular-highcharts */ "./node_modules/angular-highcharts/fesm5/angular-highcharts.js");
-/* harmony import */ var _helpers_directives_progress_container_progress_container_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./_helpers/directives/progress-container/progress-container.component */ "./src/app/_helpers/directives/progress-container/progress-container.component.ts");
-/* harmony import */ var _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./_helpers/directives/input-disable-selection/input-disable-selection.directive */ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts");
+/* harmony import */ var _helpers_pipes_safe_pipe__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./_helpers/pipes/safe.pipe */ "./src/app/_helpers/pipes/safe.pipe.ts");
+/* harmony import */ var _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./_helpers/pipes/money-to-int.pipe */ "./src/app/_helpers/pipes/money-to-int.pipe.ts");
+/* harmony import */ var _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./_helpers/pipes/int-to-money.pipe */ "./src/app/_helpers/pipes/int-to-money.pipe.ts");
+/* harmony import */ var _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./_helpers/pipes/history-type-messages.pipe */ "./src/app/_helpers/pipes/history-type-messages.pipe.ts");
+/* harmony import */ var _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./_helpers/pipes/contract-status-messages.pipe */ "./src/app/_helpers/pipes/contract-status-messages.pipe.ts");
+/* harmony import */ var _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./_helpers/pipes/contract-time-left.pipe */ "./src/app/_helpers/pipes/contract-time-left.pipe.ts");
+/* harmony import */ var _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./_helpers/directives/tooltip.directive */ "./src/app/_helpers/directives/tooltip.directive.ts");
+/* harmony import */ var _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./_helpers/directives/input-validate/input-validate.directive */ "./src/app/_helpers/directives/input-validate/input-validate.directive.ts");
+/* harmony import */ var _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./_helpers/directives/staking-switch/staking-switch.component */ "./src/app/_helpers/directives/staking-switch/staking-switch.component.ts");
+/* harmony import */ var _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./_helpers/directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
+/* harmony import */ var _helpers_directives_confirm_container_confirm_container_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./_helpers/directives/confirm-container/confirm-container.component */ "./src/app/_helpers/directives/confirm-container/confirm-container.component.ts");
+/* harmony import */ var _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./_helpers/directives/transaction-details/transaction-details.component */ "./src/app/_helpers/directives/transaction-details/transaction-details.component.ts");
+/* harmony import */ var ngx_contextmenu__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ngx-contextmenu */ "./node_modules/ngx-contextmenu/fesm5/ngx-contextmenu.js");
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! angular-highcharts */ "./node_modules/angular-highcharts/fesm5/angular-highcharts.js");
+/* harmony import */ var _helpers_directives_progress_container_progress_container_component__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./_helpers/directives/progress-container/progress-container.component */ "./src/app/_helpers/directives/progress-container/progress-container.component.ts");
+/* harmony import */ var _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./_helpers/directives/input-disable-selection/input-disable-selection.directive */ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -3517,7 +3677,7 @@ function HttpLoaderFactory(httpClient) {
 // import * as more from 'highcharts/highcharts-more.src';
 // import * as exporting from 'highcharts/modules/exporting.src';
 // import * as highstock from 'highcharts/modules/stock.src';
-angular_highcharts__WEBPACK_IMPORTED_MODULE_44__["Highcharts"].setOptions({
+angular_highcharts__WEBPACK_IMPORTED_MODULE_46__["Highcharts"].setOptions({
     global: {
         useUTC: false
     }
@@ -3551,18 +3711,20 @@ var AppModule = /** @class */ (function () {
                 _messages_messages_component__WEBPACK_IMPORTED_MODULE_23__["MessagesComponent"],
                 _staking_staking_component__WEBPACK_IMPORTED_MODULE_25__["StakingComponent"],
                 _typing_message_typing_message_component__WEBPACK_IMPORTED_MODULE_24__["TypingMessageComponent"],
-                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__["MoneyToIntPipe"],
-                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__["IntToMoneyPipe"],
-                _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_40__["StakingSwitchComponent"],
-                _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_35__["HistoryTypeMessagesPipe"],
-                _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_36__["ContractStatusMessagesPipe"],
-                _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_37__["ContractTimeLeftPipe"],
-                _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_38__["TooltipDirective"],
-                _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_39__["InputValidateDirective"],
-                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_41__["ModalContainerComponent"],
-                _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_42__["TransactionDetailsComponent"],
-                _helpers_directives_progress_container_progress_container_component__WEBPACK_IMPORTED_MODULE_45__["ProgressContainerComponent"],
-                _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_46__["InputDisableSelectionDirective"]
+                _helpers_pipes_safe_pipe__WEBPACK_IMPORTED_MODULE_33__["SafePipe"],
+                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_34__["MoneyToIntPipe"],
+                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_35__["IntToMoneyPipe"],
+                _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_41__["StakingSwitchComponent"],
+                _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_36__["HistoryTypeMessagesPipe"],
+                _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_37__["ContractStatusMessagesPipe"],
+                _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_38__["ContractTimeLeftPipe"],
+                _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_39__["TooltipDirective"],
+                _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_40__["InputValidateDirective"],
+                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__["ModalContainerComponent"],
+                _helpers_directives_confirm_container_confirm_container_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmContainerComponent"],
+                _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_44__["TransactionDetailsComponent"],
+                _helpers_directives_progress_container_progress_container_component__WEBPACK_IMPORTED_MODULE_47__["ProgressContainerComponent"],
+                _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_48__["InputDisableSelectionDirective"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -3578,17 +3740,18 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_29__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_29__["ReactiveFormsModule"],
                 _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_30__["NgSelectModule"],
-                angular_highcharts__WEBPACK_IMPORTED_MODULE_44__["ChartModule"],
-                ngx_contextmenu__WEBPACK_IMPORTED_MODULE_43__["ContextMenuModule"].forRoot()
+                angular_highcharts__WEBPACK_IMPORTED_MODULE_46__["ChartModule"],
+                ngx_contextmenu__WEBPACK_IMPORTED_MODULE_45__["ContextMenuModule"].forRoot()
             ],
             providers: [
                 _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_31__["BackendService"],
                 _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_32__["ModalService"],
-                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__["MoneyToIntPipe"],
-                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__["IntToMoneyPipe"],
+                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_34__["MoneyToIntPipe"],
+                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_35__["IntToMoneyPipe"],
             ],
             entryComponents: [
-                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_41__["ModalContainerComponent"]
+                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__["ModalContainerComponent"],
+                _helpers_directives_confirm_container_confirm_container_component__WEBPACK_IMPORTED_MODULE_43__["ConfirmContainerComponent"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
@@ -5889,11 +6052,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
-/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
-/* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
-/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! bignumber.js */ "./node_modules/bignumber.js/bignumber.js");
-/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(bignumber_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+/* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
+/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bignumber.js */ "./node_modules/bignumber.js/bignumber.js");
+/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(bignumber_js__WEBPACK_IMPORTED_MODULE_7__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5910,10 +6074,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var SendComponent = /** @class */ (function () {
-    function SendComponent(route, backend, variablesService, modalService, ngZone) {
+    function SendComponent(route, translate, backend, variablesService, modalService, ngZone) {
         var _this = this;
         this.route = route;
+        this.translate = translate;
         this.backend = backend;
         this.variablesService = variablesService;
         this.modalService = modalService;
@@ -5975,7 +6141,7 @@ var SendComponent = /** @class */ (function () {
                     return null;
                 }]),
             amount: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"](null, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, function (g) {
-                    if (new bignumber_js__WEBPACK_IMPORTED_MODULE_6__["BigNumber"](g.value).eq(0)) {
+                    if (new bignumber_js__WEBPACK_IMPORTED_MODULE_7__["BigNumber"](g.value).eq(0)) {
                         return { 'zero': true };
                     }
                     return null;
@@ -5990,7 +6156,7 @@ var SendComponent = /** @class */ (function () {
                 }]),
             mixin: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"](0, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required),
             fee: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"](this.variablesService.default_fee, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, function (g) {
-                    if ((new bignumber_js__WEBPACK_IMPORTED_MODULE_6__["BigNumber"](g.value)).isLessThan(_this.variablesService.default_fee)) {
+                    if ((new bignumber_js__WEBPACK_IMPORTED_MODULE_7__["BigNumber"](g.value)).isLessThan(_this.variablesService.default_fee)) {
                         return { 'less_min': true };
                     }
                     return null;
@@ -6028,36 +6194,20 @@ var SendComponent = /** @class */ (function () {
     };
     SendComponent.prototype.onSend = function () {
         var _this = this;
-        if (this.sendForm.valid) {
-            if (this.sendForm.get('address').value.indexOf('@') !== 0) {
-                this.backend.validateAddress(this.sendForm.get('address').value, function (valid_status) {
-                    if (valid_status === false) {
-                        _this.ngZone.run(function () {
-                            _this.sendForm.get('address').setErrors({ 'address_not_valid': true });
-                        });
-                    }
-                    else {
-                        _this.backend.sendMoney(_this.currentWalletId, _this.sendForm.get('address').value, _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (send_status) {
-                            if (send_status) {
-                                _this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                                _this.variablesService.currentWallet.send_data = { address: null, amount: null, comment: null, mixin: null, fee: null, hide: null };
-                                _this.sendForm.reset({ address: null, amount: null, comment: null, mixin: 0, fee: _this.variablesService.default_fee, hide: false });
-                            }
-                        });
-                    }
-                });
-            }
-            else {
-                this.backend.getAliasByName(this.sendForm.get('address').value.replace('@', ''), function (alias_status, alias_data) {
-                    _this.ngZone.run(function () {
-                        if (alias_status === false) {
+        var message = '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.SEND") + '</label> <span style="word-break: break-all;">' + this.sendForm.get('amount').value + ' ' + this.variablesService.defaultCurrency + '</span></div>';
+        message += '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.FROM") + '</label> <span style="word-break: break-all;">' + this.variablesService.currentWallet.address + '</span></div>';
+        message += '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.TO") + '</label> <span style="word-break: break-all;">' + this.sendForm.get('address').value + '</span></div>';
+        this.modalService.prepareConfirmModal('', message).subscribe(function (confirmation) {
+            if (_this.sendForm.valid && confirmation) {
+                if (_this.sendForm.get('address').value.indexOf('@') !== 0) {
+                    _this.backend.validateAddress(_this.sendForm.get('address').value, function (valid_status) {
+                        if (valid_status === false) {
                             _this.ngZone.run(function () {
-                                _this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
+                                _this.sendForm.get('address').setErrors({ 'address_not_valid': true });
                             });
                         }
                         else {
-                            _this.backend.sendMoney(_this.currentWalletId, alias_data.address, // this.sendForm.get('address').value,
-                            _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (send_status) {
+                            _this.backend.sendMoney(_this.currentWalletId, _this.sendForm.get('address').value, _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (send_status) {
                                 if (send_status) {
                                     _this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
                                     _this.variablesService.currentWallet.send_data = { address: null, amount: null, comment: null, mixin: null, fee: null, hide: null };
@@ -6066,9 +6216,30 @@ var SendComponent = /** @class */ (function () {
                             });
                         }
                     });
-                });
+                }
+                else {
+                    _this.backend.getAliasByName(_this.sendForm.get('address').value.replace('@', ''), function (alias_status, alias_data) {
+                        _this.ngZone.run(function () {
+                            if (alias_status === false) {
+                                _this.ngZone.run(function () {
+                                    _this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
+                                });
+                            }
+                            else {
+                                _this.backend.sendMoney(_this.currentWalletId, alias_data.address, // this.sendForm.get('address').value,
+                                _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (send_status) {
+                                    if (send_status) {
+                                        _this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
+                                        _this.variablesService.currentWallet.send_data = { address: null, amount: null, comment: null, mixin: null, fee: null, hide: null };
+                                        _this.sendForm.reset({ address: null, amount: null, comment: null, mixin: 0, fee: _this.variablesService.default_fee, hide: false });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
             }
-        }
+        });
     };
     SendComponent.prototype.toggleOptions = function () {
         this.additionalOptions = !this.additionalOptions;
@@ -6097,9 +6268,10 @@ var SendComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./send.component.scss */ "./src/app/send/send.component.scss")]
         }),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"],
-            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__["VariablesService"],
-            _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_5__["ModalService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateService"],
+            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_4__["BackendService"],
+            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__["VariablesService"],
+            _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_6__["ModalService"],
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], SendComponent);
     return SendComponent;

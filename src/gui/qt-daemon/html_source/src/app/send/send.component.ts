@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy, NgZone, HostListener} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
 import {BackendService} from '../_helpers/services/backend.service';
 import {VariablesService} from '../_helpers/services/variables.service';
 import {ModalService} from '../_helpers/services/modal.service';
@@ -12,7 +13,6 @@ import {BigNumber} from 'bignumber.js';
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
-
   isOpen = false;
   localAliases = [];
 
@@ -93,6 +93,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private translate: TranslateService,
     private backend: BackendService,
     public variablesService: VariablesService,
     private modalService: ModalService,
@@ -133,42 +134,21 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   onSend() {
-    if (this.sendForm.valid) {
-      if (this.sendForm.get('address').value.indexOf('@') !== 0) {
-        this.backend.validateAddress(this.sendForm.get('address').value, (valid_status) => {
-          if (valid_status === false) {
-            this.ngZone.run(() => {
-              this.sendForm.get('address').setErrors({'address_not_valid': true});
-            });
-          } else {
-            this.backend.sendMoney(
-              this.currentWalletId,
-              this.sendForm.get('address').value,
-              this.sendForm.get('amount').value,
-              this.sendForm.get('fee').value,
-              this.sendForm.get('mixin').value,
-              this.sendForm.get('comment').value,
-              this.sendForm.get('hide').value,
-              (send_status) => {
-                if (send_status) {
-                  this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                  this.variablesService.currentWallet.send_data = {address: null, amount: null, comment: null, mixin: null, fee: null, hide: null};
-                  this.sendForm.reset({address: null, amount: null, comment: null, mixin: 0, fee: this.variablesService.default_fee, hide: false});
-                }
-              });
-          }
-        });
-      } else {
-        this.backend.getAliasByName(this.sendForm.get('address').value.replace('@', ''), (alias_status, alias_data) => {
-          this.ngZone.run(() => {
-            if (alias_status === false) {
+    let message = '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.SEND") + '</label> <span style="word-break: break-all;">' + this.sendForm.get('amount').value + ' ' + this.variablesService.defaultCurrency + '</span></div>';
+    message += '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.FROM") + '</label> <span style="word-break: break-all;">' + this.variablesService.currentWallet.address + '</span></div>';
+    message += '<div style="display: flex; margin-bottom: 1rem;"><label style="flex: 0 0 5rem;">' + this.translate.instant("SEND.CONFIRM_MODAL.TO") + '</label> <span style="word-break: break-all;">' + this.sendForm.get('address').value +'</span></div>';
+    this.modalService.prepareConfirmModal('', message).subscribe( confirmation => {
+      if (this.sendForm.valid && confirmation) {
+        if (this.sendForm.get('address').value.indexOf('@') !== 0) {
+          this.backend.validateAddress(this.sendForm.get('address').value, (valid_status) => {
+            if (valid_status === false) {
               this.ngZone.run(() => {
-                this.sendForm.get('address').setErrors({'alias_not_valid': true});
+                this.sendForm.get('address').setErrors({'address_not_valid': true});
               });
             } else {
               this.backend.sendMoney(
                 this.currentWalletId,
-                alias_data.address, // this.sendForm.get('address').value,
+                this.sendForm.get('address').value,
                 this.sendForm.get('amount').value,
                 this.sendForm.get('fee').value,
                 this.sendForm.get('mixin').value,
@@ -183,9 +163,35 @@ export class SendComponent implements OnInit, OnDestroy {
                 });
             }
           });
-        });
+        } else {
+          this.backend.getAliasByName(this.sendForm.get('address').value.replace('@', ''), (alias_status, alias_data) => {
+            this.ngZone.run(() => {
+              if (alias_status === false) {
+                this.ngZone.run(() => {
+                  this.sendForm.get('address').setErrors({'alias_not_valid': true});
+                });
+              } else {
+                this.backend.sendMoney(
+                  this.currentWalletId,
+                  alias_data.address, // this.sendForm.get('address').value,
+                  this.sendForm.get('amount').value,
+                  this.sendForm.get('fee').value,
+                  this.sendForm.get('mixin').value,
+                  this.sendForm.get('comment').value,
+                  this.sendForm.get('hide').value,
+                  (send_status) => {
+                    if (send_status) {
+                      this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
+                      this.variablesService.currentWallet.send_data = {address: null, amount: null, comment: null, mixin: null, fee: null, hide: null};
+                      this.sendForm.reset({address: null, amount: null, comment: null, mixin: 0, fee: this.variablesService.default_fee, hide: false});
+                    }
+                  });
+              }
+            });
+          });
+        }
       }
-    }
+    });
   }
 
   toggleOptions() {

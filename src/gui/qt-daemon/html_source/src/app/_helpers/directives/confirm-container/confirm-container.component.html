@@ -1,0 +1,12 @@
+<div class="modal">
+  <div class="content">
+    <div class="message-container">
+      <span class="title" *ngIf="title">{{title}}</span>
+      <span class="message" [innerHTML]="message | safe : 'html'"></span>
+    </div>
+  </div>
+  <div class="wrap-buttons">
+    <button type="button" class="blue-button" (click)="onConfirm()">{{ 'MODALS.CONFIRM' | translate }}</button>
+    <button type="button" class="blue-button" (click)="onCancel()">{{ 'MODALS.CANCEL' | translate }}</button>
+  </div>
+</div>

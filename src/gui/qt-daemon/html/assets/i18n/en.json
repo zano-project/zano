@@ -273,6 +273,11 @@
       "FEE_REQUIRED": "Fee is required",
       "FEE_MINIMUM": "Minimum fee: {{fee}}",
       "MAX_LENGTH": "Maximum comment length reached"
+    },
+    "CONFIRM_MODAL": {
+      "SEND": "Send",
+      "FROM": "From",
+      "TO": "To"
     }
   },
   "HISTORY": {
@@ -449,7 +454,9 @@
     "ERROR": "Error",
     "SUCCESS": "Success",
     "INFO": "Information",
-    "OK": "OK"
+    "OK": "OK",
+    "CONFIRM": "Confirm",
+    "CANCEL": "Cancel"
   },
   "STAKING": {
     "TITLE": "Staking",

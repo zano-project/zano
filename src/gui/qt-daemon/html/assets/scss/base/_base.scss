@@ -925,6 +925,28 @@ app-modal-container {
   }
 }
 
+app-confirm-container {
+
+  .modal {
+
+    @include themify($themes) {
+      background: themed(modalBackground);
+      color: themed(mainTextColor);
+    }
+
+    .content {
+    }
+
+    button {
+
+      @include themify($themes) {
+        background-color: themed(blueTextColor);
+        color: themed(alternativeTextColor);
+      }
+    }
+  }
+}
+
 app-transaction-details {
 
   .table {

@@ -1,6 +1,8 @@
-import {Injectable, Injector, ComponentFactoryResolver, EmbeddedViewRef, ApplicationRef, NgZone} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector, NgZone} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import {Observable} from 'rxjs';
 import {ModalContainerComponent} from '../directives/modal-container/modal-container.component';
+import {ConfirmContainerComponent} from "../directives/confirm-container/confirm-container.component";
 
 @Injectable()
 export class ModalService {
@@ -15,7 +17,7 @@ export class ModalService {
     private translate: TranslateService
   ) {}
 
-  prepareModal(type, message) {
+  prepareModal(type, message): any {
     const length = this.components.push(
       this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent).create(this.injector)
     );
@@ -28,6 +30,25 @@ export class ModalService {
 
     this.ngZone.run(() => {
       this.appendModal(length - 1);
+    });
+  }
+
+  prepareConfirmModal(title, message): any {
+    return new Observable(observer => {
+      const length = this.components.push(
+        this.componentFactoryResolver.resolveComponentFactory(ConfirmContainerComponent).create(this.injector)
+      );
+
+      this.components[length - 1].instance['title'] = title.length ? this.translate.instant(title) : '';
+      this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
+      this.components[length - 1].instance['confirmation'].subscribe( confirmation => {
+        this.removeModal(length - 1);
+        observer.next(confirmation);
+      });
+
+      this.ngZone.run(() => {
+        this.appendModal(length - 1);
+      });
     });
   }
 
