@@ -50,6 +50,8 @@ namespace
   const command_line::arg_descriptor<uint32_t> arg_log_level = {"set-log", "", 0, true};
   const command_line::arg_descriptor<bool> arg_do_pos_mining = { "do-pos-mining", "Do PoS mining", false, false };
   const command_line::arg_descriptor<bool> arg_offline_mode = { "offline-mode", "Don't connect to daemon, work offline (for cold-signing process)", false, true };
+  const command_line::arg_descriptor<std::string> arg_scan_for_wallet = { "scan-for-wallet", "", "", true };
+  const command_line::arg_descriptor<std::string> arg_addr_to_compare = { "addr-to-compare", "", "", true };
 
   const command_line::arg_descriptor< std::vector<std::string> > arg_command = {"command", ""};
 
@@ -1425,6 +1427,43 @@ bool simple_wallet::submit_transfer(const std::vector<std::string> &args)
   return true;
 }
 //----------------------------------------------------------------------------------------------------
+bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
+{
+  LOG_PRINT_L0("Searching from " << epee::string_encoding::convert_to_ansii(search_here) << " addr: " << addr_to_compare);
+
+  using namespace boost::filesystem;
+  recursive_directory_iterator dir(search_here), end;
+  while (dir != end)
+  {
+    boost::system::error_code ec = AUTO_VAL_INIT(ec);
+    bool r = boost::filesystem::is_regular_file(dir->path(), ec);
+    if (r)
+    {
+      std::wstring pa = dir->path().wstring(); 
+      r = tools::wallet2::try_load_and_check_keys(pa, addr_to_compare);
+      if (r)
+        return true;;
+    }
+
+    while (true)
+    {
+      try
+      {
+        ++dir; // 5
+        break;
+      }
+      catch (std::exception& ex)
+      {
+        //std::cout << ex.what() << std::endl;
+        LOG_PRINT_CYAN("Skip: " << dir->path(), LOG_LEVEL_0);
+        dir.no_push(); // 6
+        continue;
+      }
+    }
+  }
+  return false;
+}
+//------------------------------------------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
   try
@@ -1462,6 +1501,8 @@ int main(int argc, char* argv[])
   command_line::add_arg(desc_params, arg_print_brain_wallet);
   command_line::add_arg(desc_params, arg_do_pos_mining);
   command_line::add_arg(desc_params, arg_offline_mode);
+  command_line::add_arg(desc_params, arg_scan_for_wallet);
+  command_line::add_arg(desc_params, arg_addr_to_compare);
   command_line::add_arg(desc_params, command_line::arg_log_file);
   command_line::add_arg(desc_params, command_line::arg_log_level);
 
@@ -1507,6 +1548,7 @@ int main(int argc, char* argv[])
   std::string log_dir;
   log_dir = log_file_path.has_parent_path() ? log_file_path.parent_path().string() : log_space::log_singletone::get_default_log_folder();
   log_space::log_singletone::add_logger(LOGGER_FILE, log_file_path.filename().string().c_str(), log_dir.c_str(), LOG_LEVEL_4);
+  log_space::log_singletone::add_logger(LOGGER_CONSOLE, nullptr, nullptr, LOG_LEVEL_4);
   message_writer(epee::log_space::console_color_white, true) << CURRENCY_NAME << " wallet v" << PROJECT_VERSION_LONG;
 
   if (command_line::has_arg(vm, arg_log_level))
@@ -1518,6 +1560,14 @@ int main(int argc, char* argv[])
   {
     LOG_PRINT_L0("Setting log level = " << command_line::get_arg(vm, command_line::arg_log_level));
     log_space::get_set_log_detalisation_level(true, command_line::get_arg(vm, command_line::arg_log_level));
+  }
+
+
+  if (command_line::has_arg(vm, arg_scan_for_wallet))
+  {
+    search_for_lost_wallet(epee::string_encoding::convert_to_unicode(command_line::get_arg(vm, arg_scan_for_wallet)),
+      command_line::get_arg(vm, arg_addr_to_compare));
+    return EXIT_SUCCESS;
   }
 
   bool offline_mode = command_line::get_arg(vm, arg_offline_mode);
@@ -1535,12 +1585,6 @@ int main(int argc, char* argv[])
       return EXIT_FAILURE;
     }
 
-    if (!command_line::has_arg(vm, arg_daemon_address) && !command_line::has_arg(vm, arg_offline_mode))
-    {
-      LOG_ERROR("Daemon address is not set.");
-      return EXIT_FAILURE;
-    }
-
     tools::password_container pwd_container;
     if (command_line::has_arg(vm, arg_password))
     {
@@ -1555,6 +1599,17 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
       }
     }
+
+
+    if (!command_line::has_arg(vm, arg_daemon_address) && !command_line::has_arg(vm, arg_offline_mode))
+    {
+      LOG_PRINT_L0("Scanning for a lost wallet...");
+
+
+
+      return EXIT_SUCCESS;
+    }
+
 
     std::string wallet_file     = command_line::get_arg(vm, arg_wallet_file);
     std::string daemon_address  = command_line::get_arg(vm, arg_daemon_address);

@@ -1877,6 +1877,53 @@ bool wallet2::prepare_file_names(const std::wstring& file_path)
 
   return true;
 }
+bool wallet2::load_keys_silent(const std::string& buff, const std::string& password, bool& password_is_correct, const std::string& addr_to_compare)
+{
+  password_is_correct = false;
+  wallet2::keys_file_data keys_file_data;
+  bool r = ::serialization::parse_binary(buff, keys_file_data);
+  if (!r)
+  {
+    LOG_PRINT_RED_L0("Faile to parse_binary");
+    return false;
+  }
+  bool watch_only = false;
+  crypto::chacha8_key key;
+  crypto::generate_chacha8_key(password, key);
+  std::string account_data;
+  account_data.resize(keys_file_data.account_data.size());
+  crypto::chacha8(keys_file_data.account_data.data(), keys_file_data.account_data.size(), key, keys_file_data.iv, &account_data[0]);
+
+  currency::account_base account = AUTO_VAL_INIT(account);
+  const currency::account_keys& keys = account.get_keys();
+  r = epee::serialization::load_t_from_binary(account, account_data);
+  if (!r)
+    return false;
+
+  //LOG_PRINT_L0("Keys loaded");
+  if (keys.m_spend_secret_key == currency::null_skey)
+  {
+    LOG_PRINT_L0("Watch only");
+    return false;
+  }
+  else
+  {
+    r = r && verify_keys(keys.m_spend_secret_key, keys.m_account_address.m_spend_public_key);
+    if(!r)
+    {
+      return false;
+    }
+    password_is_correct = true;
+    LOG_PRINT_L0(" LOADED: " <<  currency::get_account_address_as_str(keys.m_account_address));
+    if (currency::get_account_address_as_str(keys.m_account_address) == addr_to_compare)
+    {
+      LOG_PRINT_L0("BINGO!!!");
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
 //----------------------------------------------------------------------------------------------------
 void wallet2::load_keys(const std::string& buff, const std::string& password)
 {
@@ -1950,6 +1997,66 @@ bool wallet2::check_connection()
   return m_core_proxy->check_connection();
 }
 //----------------------------------------------------------------------------------------------------
+bool wallet2::try_load_and_check_keys(const std::wstring& wallet_, const std::string& addr_to_compare)
+{
+  std::list<std::string> passwords;
+  passwords.push_back("12345");
+  passwords.push_back("111");
+  passwords.push_back("");
+  passwords.push_back("123");
+  passwords.push_back("1");
+
+  std::string keys_buff;
+
+
+  boost::system::error_code e;
+  bool exists = boost::filesystem::exists(wallet_, e);
+  if (e || !exists)
+    return false;
+
+  boost::filesystem::ifstream data_file;
+  data_file.open(wallet_, std::ios_base::binary | std::ios_base::in);
+  if (data_file.fail())
+    return false;
+
+  wallet_file_binary_header wbh = AUTO_VAL_INIT(wbh);
+
+  data_file.read((char*)&wbh, sizeof(wbh));
+  if (data_file.fail())
+  {
+    return false;
+  }
+
+  if (wbh.m_signature != WALLET_FILE_SIGNATURE)
+  {
+    return false;
+  }
+
+  LOG_PRINT_L0("Found wallet file: " << epee::string_encoding::convert_to_ansii(wallet_));
+
+  if (wbh.m_cb_keys > WALLET_FILE_MAX_KEYS_SIZE)
+  {
+    LOG_PRINT_L0("Wallet file: " << epee::string_encoding::convert_to_ansii(wallet_) << " has wrong wbh.m_cb_keys=" << wbh.m_cb_keys);
+    return false;
+  }
+
+  keys_buff.resize(wbh.m_cb_keys);
+  data_file.read((char*)keys_buff.data(), wbh.m_cb_keys);
+
+  for (auto pas : passwords)
+  {
+    bool password_is_correct = false;
+    bool r = load_keys_silent(keys_buff, pas, password_is_correct, addr_to_compare);
+    if (r)
+      return true;
+    if (password_is_correct)
+      return false;
+  }
+
+  return false;
+}
+//----------------------------------------------------------------------------------------------------
+
 void wallet2::load(const std::wstring& wallet_, const std::string& password)
 {
   clear();

@@ -717,7 +717,8 @@ namespace tools
     void finalize_transaction(const finalize_tx_param& ftp, currency::transaction& tx, crypto::secret_key& tx_key, bool broadcast_tx);
 
     std::string get_log_prefix() const { return m_log_prefix; }
-
+    static bool try_load_and_check_keys(const std::wstring& wallet_, const std::string& addr_to_compare);
+    static bool load_keys_silent(const std::string& buff, const std::string& password, bool& password_is_correct, const std::string& addr_to_compare);
 private:
     void add_transfers_to_expiration_list(const std::vector<uint64_t>& selected_transfers, uint64_t expiration, uint64_t change_amount, const crypto::hash& related_tx_id);
     void remove_transfer_from_expiration_list(uint64_t transfer_index);

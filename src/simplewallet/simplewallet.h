@@ -38,6 +38,7 @@ namespace currency
     //wallet *create_wallet();
     bool process_command(const std::vector<std::string> &args);
     std::string get_commands_str();
+    bool search_for_lost_wallet(const std::wstring &search_here);
   private:
     void handle_command_line(const boost::program_options::variables_map& vm);
 
