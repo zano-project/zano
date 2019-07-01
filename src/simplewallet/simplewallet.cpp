@@ -1429,6 +1429,11 @@ bool simple_wallet::submit_transfer(const std::vector<std::string> &args)
 //----------------------------------------------------------------------------------------------------
 bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
 {
+  if (search_here == L"/proc")
+  {
+    LOG_PRINT_L0("Skiping    " << epee::string_encoding::convert_to_ansii(search_here));
+    return false;
+  }
   static uint64_t last_tick = 0;
   using namespace boost::filesystem;
   //recursive_directory_iterator dir(search_here), end;
