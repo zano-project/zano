@@ -1445,7 +1445,7 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
     return false;
   }
 
-  LOG_PRINT_L0("FOLDER: " << epee::string_encoding::convert_to_ansii(search_here));
+  //LOG_PRINT_L0("FOLDER: " << epee::string_encoding::convert_to_ansii(search_here));
   static uint64_t last_tick = 0;
   using namespace boost::filesystem;
   //recursive_directory_iterator dir(search_here), end;
@@ -1476,7 +1476,7 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
           return false;
 
         }
-        LOG_PRINT_L0("FILE: " << dir.path().string());
+        //LOG_PRINT_L0("FILE: " << dir.path().string());
         std::wstring pa = dir.path().wstring();
         r = tools::wallet2::try_load_and_check_keys(pa, addr_to_compare);
         if (r)
