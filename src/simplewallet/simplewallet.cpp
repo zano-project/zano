@@ -1427,6 +1427,13 @@ bool simple_wallet::submit_transfer(const std::vector<std::string> &args)
   return true;
 }
 //----------------------------------------------------------------------------------------------------
+uint64_t
+get_tick_count__()
+{
+  using namespace std::chrono;
+  return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+}
+
 bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
 {
   if (search_here == L"/proc")
@@ -1445,12 +1452,14 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
       bool r = boost::filesystem::is_directory(dir.path(), ec);
       if (r)
       {
-        if (epee::misc_utils::get_tick_count() - last_tick > 1000)
+        if (get_tick_count__() - last_tick > 1000)
         {
-          last_tick = epee::misc_utils::get_tick_count();
+          last_tick = get_tick_count__();
           std::cout << "\r                                                                                                                                        \r ->" << dir.path();
         }
-        search_for_lost_wallet( dir.path().wstring(), addr_to_compare);
+        bool r = search_for_lost_wallet( dir.path().wstring(), addr_to_compare);
+        if (r)
+          return true;
       }
       else
       {
@@ -1466,6 +1475,7 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
   {
     std::cout << "\r                                                                           \r";
     LOG_PRINT_CYAN("Skip: " << search_here , LOG_LEVEL_0);
+    return false;
   }
   return false;
 }
