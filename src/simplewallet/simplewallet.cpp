@@ -1472,7 +1472,7 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
         bool r = boost::filesystem::is_regular_file(dir.path(), ec);
         if (!r)
         {
-          LOG_PRINT_L0("Skiping as not regular: " << epee::string_encoding::convert_to_ansii(dir.path().wstring()));
+          //LOG_PRINT_L0("Skiping as not regular: " << epee::string_encoding::convert_to_ansii(dir.path().wstring()));
           return false;
 
         }
