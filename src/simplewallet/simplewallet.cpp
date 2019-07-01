@@ -1436,11 +1436,13 @@ get_tick_count__()
 
 bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
 {
-  if (search_here == L"/proc")
-  {
-    LOG_PRINT_L0("Skiping    " << epee::string_encoding::convert_to_ansii(search_here));
-    return false;
-  }
+//   if (search_here == L"/proc")
+//   {
+//     LOG_PRINT_L0("Skiping    " << epee::string_encoding::convert_to_ansii(search_here));
+//     return false;
+//   }
+
+
   static uint64_t last_tick = 0;
   using namespace boost::filesystem;
   //recursive_directory_iterator dir(search_here), end;
@@ -1463,6 +1465,14 @@ bool search_for_lost_wallet(const std::wstring &search_here, const std::string &
       }
       else
       {
+        boost::system::error_code ec = AUTO_VAL_INIT(ec);
+        bool r = boost::filesystem::is_regular_file(dir.path(), ec);
+        if (!r)
+        {
+          LOG_PRINT_L0("Skiping as not regular: " << epee::string_encoding::convert_to_ansii(dir.path().wstring()));
+          return false;
+
+        }
         std::wstring pa = dir.path().wstring();
         r = tools::wallet2::try_load_and_check_keys(pa, addr_to_compare);
         if (r)
