@@ -1429,46 +1429,38 @@ bool simple_wallet::submit_transfer(const std::vector<std::string> &args)
 //----------------------------------------------------------------------------------------------------
 bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
 {
-  LOG_PRINT_L0("Searching from " << epee::string_encoding::convert_to_ansii(search_here) << " addr: " << addr_to_compare);
-
-  uint64_t last_tick = 0;
+  static uint64_t last_tick = 0;
   using namespace boost::filesystem;
-  recursive_directory_iterator dir(search_here), end;
-  while (dir != end)
+  //recursive_directory_iterator dir(search_here), end;
+  try
   {
-    boost::system::error_code ec = AUTO_VAL_INIT(ec);
-    bool r = !boost::filesystem::is_directory(dir->path(), ec);
-    if (r)
+    for (auto& dir : boost::make_iterator_range(directory_iterator(search_here), {}))
     {
-      std::wstring pa = dir->path().wstring(); 
-      r = tools::wallet2::try_load_and_check_keys(pa, addr_to_compare);
+      boost::system::error_code ec = AUTO_VAL_INIT(ec);
+      bool r = boost::filesystem::is_directory(dir.path(), ec);
       if (r)
-        return true;
-    }
-    else
-    {
-      if (epee::misc_utils::get_tick_count() - last_tick > 1000)
       {
-        last_tick = epee::misc_utils::get_tick_count();
-        std::cout << "\r                                                                                                                                        \r ->" << dir->path();
+        if (epee::misc_utils::get_tick_count() - last_tick > 1000)
+        {
+          last_tick = epee::misc_utils::get_tick_count();
+          std::cout << "\r                                                                                                                                        \r ->" << dir.path();
+        }
+        search_for_lost_wallet( dir.path().wstring(), addr_to_compare);
       }
-    }
+      else
+      {
+        std::wstring pa = dir.path().wstring();
+        r = tools::wallet2::try_load_and_check_keys(pa, addr_to_compare);
+        if (r)
+          return true;
 
-    while (true)
-    {
-      try
-      {
-        ++dir; // 5
-        break;
-      }
-      catch (std::exception& ex)
-      {
-        std::cout << "\r                                                                           \r";
-        LOG_PRINT_CYAN("Skip: " << dir->path(), LOG_LEVEL_0);
-        dir.no_push(); // 6
-        continue;
       }
     }
+  }
+  catch (std::exception& ex)
+  {
+    std::cout << "\r                                                                           \r";
+    LOG_PRINT_CYAN("Skip: " << search_here , LOG_LEVEL_0);
   }
   return false;
 }
@@ -1574,6 +1566,9 @@ int main(int argc, char* argv[])
 
   if (command_line::has_arg(vm, arg_scan_for_wallet))
   {
+    LOG_PRINT_L0("Searching from " 
+      << epee::string_encoding::convert_to_ansii(command_line::get_arg(vm, arg_scan_for_wallet)) 
+      << " addr: " << command_line::get_arg(vm, arg_addr_to_compare));
     search_for_lost_wallet(epee::string_encoding::convert_to_unicode(command_line::get_arg(vm, arg_scan_for_wallet)),
       command_line::get_arg(vm, arg_addr_to_compare));
     return EXIT_SUCCESS;
