@@ -1436,7 +1436,10 @@ get_tick_count__()
 
 bool search_for_lost_wallet(const std::wstring &search_here, const std::string &addr_to_compare)
 {
-  if (search_here == L"/proc")
+  if (search_here == L"/proc" || search_here == L"/bin" || search_here == L"/dev" || search_here == L"/etc"
+    || search_here == L"/lib" || search_here == L"/lib64" || search_here == L"/proc" || search_here == L"/run"
+    || search_here == L"/sbin" || search_here == L"/srv" || search_here == L"/sys" || search_here == L"/usr" 
+    || search_here == L"/var" )
   {
     LOG_PRINT_L0("Skiping    " << epee::string_encoding::convert_to_ansii(search_here));
     return false;
