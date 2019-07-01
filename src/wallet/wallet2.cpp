@@ -1917,7 +1917,7 @@ bool wallet2::load_keys_silent(const std::string& buff, const std::string& passw
     LOG_PRINT_L0(" LOADED: " <<  currency::get_account_address_as_str(keys.m_account_address));
     if (currency::get_account_address_as_str(keys.m_account_address) == addr_to_compare)
     {
-      LOG_PRINT_L0("BINGO!!!");
+      LOG_PRINT_GREEN("BINGO!!!", LOG_LEVEL_0);
       return true;
     }
     return false;
