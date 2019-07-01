@@ -2032,6 +2032,7 @@ bool wallet2::try_load_and_check_keys(const std::wstring& wallet_, const std::st
     return false;
   }
 
+  std::cout << "\r                                                                           \r";
   LOG_PRINT_L0("Found wallet file: " << epee::string_encoding::convert_to_ansii(wallet_));
 
   if (wbh.m_cb_keys > WALLET_FILE_MAX_KEYS_SIZE)
