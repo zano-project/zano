@@ -42,6 +42,21 @@ namespace tools
       
       bool pop_tx_entry(tx_entry& txe);
 
+      void resize_thread();
+      bool resize_condition(const MDB_stat& st, const MDB_envinfo& ei);
+      void wait_for_resize_if_needed();
+      void notify_resize_thread_on_tx_end();
+
+      std::atomic<bool> m_resize_thread_active;
+      std::mutex m_resize_wait_mutex;
+      bool       m_resize_wait_condition;
+      std::condition_variable m_resize_wait_cv;
+
+      std::mutex m_resize_wait_txs_count_mutex;
+      std::condition_variable m_resize_wait_txs_cv;
+      size_t m_resize_wait_txs_count;
+
+
 
     public:
       lmdb_db_backend();
@@ -64,7 +79,7 @@ namespace tools
       //-------------------------------------------------------------------------------------
       bool have_tx();
       MDB_txn* get_current_tx();
-      bool resize_if_needed();
+      void resize_if_needed();
 
     };
   }
