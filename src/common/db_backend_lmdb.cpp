@@ -10,10 +10,10 @@
 #include "util.h"
 
 #define BUF_SIZE 1024
-#define DB_RESIZE_MIN_FREE_SIZE    (6 * 1024 * 1024)  // DB resize will triggeres if that much space left on DB map
+#define DB_RESIZE_MIN_FREE_SIZE    (8 * 1024 * 1024)  // DB resize will triggeres if that much space left on DB map
 #define DB_RESIZE_MIN_MAX_SIZE     (1 * 1024 * 1024)  // DB resize will triggered if DB map size is less than this
-#define DB_RESIZE_INCREMENT_SIZE   (6 * 1024 * 1024)  // Grow step size
-#define DB_RESIZE_COMMITS_TO_CHECK 2
+#define DB_RESIZE_INCREMENT_SIZE   (5 * 1024 * 1024)  // Grow step size
+#define DB_RESIZE_COMMITS_TO_CHECK 1
 
 #define CHECK_AND_ASSERT_MESS_LMDB_DB(rc, ret, mess) CHECK_AND_ASSERT_MES(res == MDB_SUCCESS, ret, "[DB ERROR]:(" << rc << ")" << mdb_strerror(rc) << ", [message]: " << mess << ENDL << "LMDB " << get_brief_lmdb_stat(m_penv));
 #define CHECK_AND_ASSERT_THROW_MESS_LMDB_DB(rc, mess) CHECK_AND_ASSERT_THROW_MES(res == MDB_SUCCESS, "[DB ERROR]:(" << rc << ")" << mdb_strerror(rc) << ", [message]: " << mess << ENDL << "LMDB " << get_brief_lmdb_stat(m_penv));
@@ -369,7 +369,7 @@ namespace tools
       data.mv_size = vs;
 
       res = mdb_put(get_current_tx(), static_cast<MDB_dbi>(h), &key, &data, 0);
-      CHECK_AND_ASSERT_MESS_LMDB_DB(res, false, "Unable to mdb_put");
+      CHECK_AND_ASSERT_MESS_LMDB_DB(res, false, "Unable to mdb_put, ks=" << ks << ", vs=" << vs);
       return true;
     }
 
@@ -472,17 +472,11 @@ namespace tools
       auto slh = epee::misc_utils::create_scope_leave_handler([&](){
         m_resize_thread_active = false;
       });
-      LOG_PRINT_CYAN("[DB " << m_path << "] resize thread started", LOG_LEVEL_3);
+      LOG_PRINT_CYAN("[DB " << m_path << "] resize thread started", LOG_LEVEL_0);
 
       // asquare an exclusive access to LMDB
 
-      // stop all new txs
-      {
-        std::lock_guard<decltype(m_resize_wait_mutex)> lock(m_resize_wait_mutex);
-        m_resize_wait_condition = true;
-      }
-
-      // free all threads waiting on m_resize_wait_cv on exit
+      // make sure all threads will be freed on m_resize_wait_cv on exit
       auto slh2 = epee::misc_utils::create_scope_leave_handler([&](){
         {
           std::lock_guard<decltype(m_resize_wait_mutex)> lock(m_resize_wait_mutex);
@@ -491,11 +485,38 @@ namespace tools
         m_resize_wait_cv.notify_all();
       });
 
-      // wait for all ongoing lmdb txs are finished (until m_resize_wait_txs_count_mutex is zero)
-      std::unique_lock<std::mutex> lock(m_resize_wait_txs_count_mutex);
-      m_resize_wait_txs_cv.wait(lock, [this](){ return m_resize_wait_txs_count == 0; });
+      size_t iter_n = 0;
+      while(true)
+      {
+        ++iter_n;
+        // prevent all new txs from starting
+        {
+          std::lock_guard<decltype(m_resize_wait_mutex)> lock(m_resize_wait_mutex);
+          m_resize_wait_condition = true;
+        }
 
-      LOG_PRINT_CYAN("[DB " << m_path << "] exclusive access acquired", LOG_LEVEL_3);
+        // wait for all ongoing lmdb txs are finished (until m_resize_wait_txs_count_mutex is zero)
+        {
+          std::unique_lock<std::mutex> lock(m_resize_wait_txs_count_mutex);
+          if (m_resize_wait_txs_cv.wait_for(lock, std::chrono::seconds(2), [this](){ return m_resize_wait_txs_count == 0; }))
+            break; // m_resize_wait_txs_count becomes zero within specified period, access acquired
+        }
+
+        LOG_PRINT_CYAN("[DB " << m_path << "] iteration " << iter_n << ": failed to get exclusive access within the time, seems to be deadlock, releasing....", LOG_LEVEL_0);
+
+        // okay, we failed to get all txs fineshed, seems to be deadlock
+        // release all blocked txs
+        {
+          std::lock_guard<decltype(m_resize_wait_mutex)> lock(m_resize_wait_mutex);
+          m_resize_wait_condition = false;
+        }
+        m_resize_wait_cv.notify_all();
+
+        // sleep some time and try again
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+      }
+
+      LOG_PRINT_CYAN("[DB " << m_path << "] exclusive access acquired", LOG_LEVEL_0);
 
       // check resize condition again and calculate new size
 
