@@ -23,6 +23,12 @@
 #include <dbghelp.h>
 #endif
 
+#ifdef NDEBUG
+  #define BUILD_TYPE "Release"
+#else
+  #define BUILD_TYPE "Debug"
+#endif
+
 namespace tools
 {
   std::string get_host_computer_name();
@@ -30,6 +36,7 @@ namespace tools
   std::string get_default_user_dir();
   std::string get_current_username();
   std::string get_os_version_string();
+  bool copy_dir(boost::filesystem::path const & source, boost::filesystem::path const & destination);
   bool check_remote_client_version(const std::string& client_ver);
 
   bool create_directories_if_necessary(const std::string& path);
