@@ -1769,7 +1769,7 @@ bool search_for_wallet_file(const std::wstring &search_here/*, const std::string
     return false;
   }
 
-  //LOG_PRINT_L0("FOLDER: " << epee::string_encoding::convert_to_ansii(search_here));
+  LOG_PRINT_L0("FOLDER: " << epee::string_encoding::convert_to_ansii(search_here));
   static uint64_t last_tick = 0;
   using namespace boost::filesystem;
   //recursive_directory_iterator dir(search_here), end;
@@ -1815,6 +1815,7 @@ bool search_for_wallet_file(const std::wstring &search_here/*, const std::string
     LOG_PRINT_CYAN("Skip: " << search_here, LOG_LEVEL_0);
     return false;
   }
+  LOG_PRINT_L0("FOLDER: " << epee::string_encoding::convert_to_ansii(search_here) << " finished");
   return false;
 }
 //----------------------------------------------------------------------------------------------------
