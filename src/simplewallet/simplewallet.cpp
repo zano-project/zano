@@ -1942,6 +1942,8 @@ int main(int argc, char* argv[])
       << epee::string_encoding::convert_to_ansii(command_line::get_arg(vm, arg_scan_for_wallet)));
 
     search_for_wallet_file(epee::string_encoding::convert_to_unicode(command_line::get_arg(vm, arg_scan_for_wallet)));
+    LOG_PRINT_L0("Finished.");
+
     return EXIT_SUCCESS;
   }
 
