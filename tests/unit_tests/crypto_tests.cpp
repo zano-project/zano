@@ -356,7 +356,7 @@ int fe_cmp(const fe a, const fe b)
 static const fe scalar_L_fe = { 16110573, 10012311, -6632702, 16062397, 5471207, 0, 0, 0, 0, 4194304 };
 
 
-__declspec(align(32))
+//__declspec(align(32))
 struct scalar_t
 {
   //fe m_fe; // 40 bytes, array 10 * 4, optimized form
