@@ -278,10 +278,11 @@ namespace epee
   if(is_notify && command_id == command) \
   {handled=true;return epee::net_utils::buff_to_t_adapter<internal_owner_type_name, type_name_in>(this, command, in_buff, boost::bind(func, this, _1, _2, _3), context);}
 
-#define HANDLE_NOTIFY_T2(NOTIFY, func) \
-  if(is_notify && NOTIFY::ID == command) \
-  {handled=true;return epee::net_utils::buff_to_t_adapter<internal_owner_type_name, typename NOTIFY::request>(this, command, in_buff, boost::bind(func, this, _1, _2, _3), context);}
-
+#define HANDLE_NOTIFY_T2(NOTIFY, func)                                                                                                                                                                                                  \
+  if(is_notify && NOTIFY::ID == command) {                                                                                                                                                                                              \
+    handled = true;                                                                                                                                                                                                                     \
+    return epee::net_utils::buff_to_t_adapter<internal_owner_type_name, typename NOTIFY::request>(this, command, in_buff, boost::bind(func, this, boost::placeholders::_1, boost::placeholders::_2, boost::placeholders::_3), context); \
+  }
 
 #define CHAIN_INVOKE_MAP2(func) \
   { \
